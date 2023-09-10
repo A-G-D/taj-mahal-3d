@@ -1,0 +1,2 @@
+module taj_mahal() {
+}
