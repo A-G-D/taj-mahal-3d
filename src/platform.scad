@@ -25,15 +25,21 @@ module platformShape (platformSize)
 
 }
 
-union ()
 
-{
-    difference ()
+difference ()
     {
-        linear_extrude (height = 150) 
-            {
-                platformShape (1000);
-            }
+        union ()
+        {
+            linear_extrude (height = 150) 
+                {
+                    platformShape (1000);
+                }
+            translate([0,0,115]) 
+            linear_extrude (height = 18, center =true) 
+               { 
+                        offset (delta= 5) platformShape (1000);
+               }
+        }
 
         translate([0,0,125]) 
         linear_extrude (height = 26) 
@@ -43,17 +49,10 @@ union ()
 
         linear_extrude (height = 160, center = true) square (850, center =true);
 
-        linear_extrude (height = 800) circle (80, center = true);
-
-
+        linear_extrude (height = 800) circle (80);
     }
 
-    translate([0,0,115]) 
-    linear_extrude (height = 18, center =true) 
-           { 
-                    offset (delta= 5) platformShape (1000);
-           }
-}
+
 
 
 
