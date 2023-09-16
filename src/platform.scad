@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 module platform (platformSize)
 {
     platformSize = platformSize;
@@ -115,9 +114,3 @@ difference ()
 
         linear_extrude (height = 800) circle (80);
     }
-
-
-
-
-
->>>>>>> 0f8dc16110475602fe1fd08f2c1fe52dddc57e18
