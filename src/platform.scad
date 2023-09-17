@@ -1,18 +1,14 @@
-module platform (platformSize)
-{
-    platformSize = platformSize;
-    platformHeight = 0.15*platformSize;             // Height of the platform with respect to the platformSize.
-    polySize = 0.075*platformSize;                  // Size of the polygon (octagon) on the four corners of the platform
-    pillarPosition = (platformSize-polySize)/2;     // Position of the center of the polygon and the pillars on each corner.
-    elf = 0.35*platformSize;                        // Defines the length of the rectangular extension on the platform.
-    ewf = 0.10*platformSize;                        // Defines the width of the rectangular extension on the platform
-    bh = .115*platformSize;                         // Defines the height of the 'brace' around the platform.
-    bt = .018*platformSize;                         // Defines the thickness of the 'brace' around the platform.
-    bo = 0.005*platformSize;                        // Defines the offset of the 'brace' around the platform.
-    tp = 0.015*platformSize;                        // Defines the thickness of the wall at the top of the platform.
-    dh = 0.025*platformSize;                        // Defines the height of the depression on the top of the platform.
-    
-    
+module platform (platform_bounds_x, platform_bounds_y, platform_thickness, octagon_size )
+{   
+    octagon_position_x = (platform_bounds_x - octagon_size)/2;           // Position of the center of the polygon and the pillars on each corner.
+    octagon_position_y = (platform_bounds_y - octagon_size)/2;
+    extension_length = 0.50*(platform_bounds_y-2*octagon_size) ;         // Defines the length of the rectangular extension on the platform.
+    extension_width = 0.10 * (platform_bounds_x-2*octagon_size);         // Defines the width of the rectangular extension on the platform
+    brace_position_z = 115;                                              // Defines the height of the 'brace' around the platform.
+    brace_thickness = 18;                                                // Defines the thickness of the 'brace' around the platform.
+    brace_offset = 5;                                                    // Defines the offset of the 'brace' around the platform.
+    top_wall_thickness = 30;                                             // Defines the thickness of the wall at the top of the platform.
+    depression_height = 20;                                              // Defines the height of the depression on the top of the platform.
     
     
     
@@ -20,18 +16,18 @@ module platform (platformSize)
     {
         angles=[ for (i = [0:order-1]) i*(360/order)+360/(2*order) ];
         coords=[ for (th=angles) [r*cos(th), r*sin(th)] ];
-        color ("gray") polygon(coords);
+        polygon(coords);
     }
 
-    module platformShape (platformSize)
+    module platform_shape (platform_bounds_x, platform_bounds_y)
     {
-        square(platformSize,true);
-        translate ([pillarPosition,pillarPosition]) regular_polygon(8, polySize);
-        translate ([pillarPosition,-pillarPosition]) regular_polygon(8, polySize);
-        translate ([-pillarPosition,pillarPosition]) regular_polygon(8, polySize);
-        translate ([-pillarPosition,-pillarPosition]) regular_polygon(8, polySize);
+        square([platform_bounds_x, platform_bounds_y], center = true);
+        translate ([octagon_position_x,octagon_position_y]) regular_polygon(8, octagon_size);
+        translate ([octagon_position_x,-octagon_position_y]) regular_polygon(8, octagon_size);
+        translate ([-octagon_position_x,octagon_position_y]) regular_polygon(8, octagon_size);
+        translate ([-octagon_position_x,-octagon_position_y]) regular_polygon(8, octagon_size);
 
-        translate ([platformSize/2,0,0]) square ([ewf, elf], center =true);
+        translate ([platform_bounds_x/2, 0, 0]) square ([extension_width, extension_length], true);
 
     }
 
@@ -40,23 +36,24 @@ module platform (platformSize)
         {
             union ()
             {
-                linear_extrude (height = platformHeight) 
+                linear_extrude (height = platform_thickness+depression_height) 
                     {
-                        platformShape (platformSize);
+                        platform_shape (platform_bounds_x, platform_bounds_y);
                     }
-                translate([0,0,bh]) 
-                linear_extrude (height = bt, center =true) 
+                translate([0,0,brace_position_z]) 
+                linear_extrude (height = brace_thickness, center =true) 
                 { 
-                            offset (delta= bo) platformShape (platformSize);
+                            offset (delta= brace_offset) platform_shape (platform_bounds_x, platform_bounds_y);
                 }
             }
 
-            translate([0,0,platformHeight-dh]) 
-            linear_extrude (height = dh) 
+            translate([0,0,platform_thickness]) 
+            linear_extrude (height = depression_height) 
                     { 
-                        offset (delta=-tp) platformShape (platformSize);
+                        offset (delta=-top_wall_thickness) platform_shape (platform_bounds_x, platform_bounds_y);
                     }
 
-            linear_extrude (height = 0.5*platformHeight, center = false) square (0.85*platformSize, center =true);
+            linear_extrude (height = 0.5*platform_thickness) square ([0.85*platform_bounds_x, 0.85*platform_bounds_y], true);
         }
 }
+
