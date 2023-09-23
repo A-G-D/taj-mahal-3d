@@ -39,32 +39,26 @@ module extrude(
                 each concat(
                     [for (j=[0:cs_points_count - 2])
                         [
-                            (i + 0)*cs_points_count + (j + 0),
-                            (i + 0)*cs_points_count + (j + 1),
+                            (i + 1)*cs_points_count + (j + 0),
                             (i + 1)*cs_points_count + (j + 1),
-                            (i + 1)*cs_points_count + (j + 0)
+                            (i + 0)*cs_points_count + (j + 1),
+                            (i + 0)*cs_points_count + (j + 0)
                         ]
                     ],
                     [[
-                        (i + 0)*cs_points_count + (cs_points_count - 1),
-                        (i + 0)*cs_points_count + 0,
+                        (i + 1)*cs_points_count + (cs_points_count - 1),
                         (i + 1)*cs_points_count + 0,
-                        (i + 1)*cs_points_count + (cs_points_count - 1)
+                        (i + 0)*cs_points_count + 0,
+                        (i + 0)*cs_points_count + (cs_points_count - 1)
                     ]]
                 )
             ],
-            [concat(
-                [for (i=[0:cs_points_count - 1])
-                    cs_points_count*0 + i
-                ],
-                [cs_points_count*0 + 0]
-            )],
-            [concat(
-                [for (i=[0:cs_points_count - 1])
-                    cs_points_count*(cs_layers - 1) + i
-                ],
-                [cs_points_count*(cs_layers - 1) + 0]
-            )]
+            [[for (i=[0:cs_points_count - 1])
+                cs_points_count*0 + i
+            ]],
+            [[for (i=[cs_points_count - 1:-1:0])
+                cs_points_count*(cs_layers - 1) + i
+            ]]
         );
 
     polyhedron(
