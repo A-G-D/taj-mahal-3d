@@ -9,14 +9,27 @@ jobs:
         with:
           submodules: recursive
       - name: Install openscad
-        run: sudo apt-get update -y && sudo apt-get install openscad -y --no-install-recommends && which openscad
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install openscad -y --no-install-recommends
+          which openscad
       - name: Export stl file
-        run: openscad -o sabu_disc.stl -D 'quality="production"' src/sabu_disc.scad
+        run: |
+          openscad -o taj_mahal-finial.stl -D 'quality="production"' src/finial.scad
+          openscad -o taj_mahal-hall.stl -D 'quality="production"' src/hall.scad
+          openscad -o taj_mahal-major_dome.stl -D 'quality="production"' src/major_dome.scad
+          openscad -o taj_mahal-minaret.stl -D 'quality="production"' src/minaret.scad
+          openscad -o taj_mahal-minor_dome.stl -D 'quality="production"' src/minor_dome.scad
+          openscad -o taj_mahal-pillar.stl -D 'quality="production"' src/pillar.scad
+          openscad -o taj_mahal-platform.stl -D 'quality="production"' src/platform.scad
+          openscad -o taj_mahal.stl -D 'quality="production"' src/main.scad
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: taj_mahal-${{ github.sha }}.stl
-          path: taj_mahal.stl
+          name: taj_mahal-${{ github.sha }}
+          path: |
+            taj_mahal.stl
+            taj_mahal-*.stl
           if-no-files-found: error
       - name: Release
         uses: softprops/action-gh-release@v1
