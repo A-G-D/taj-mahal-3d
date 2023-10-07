@@ -20,7 +20,7 @@ module extrude(
 )
 {
     cs_points_count = len(points);
-    cs_layers = (limits[2] - limits[0])/limits[1] + 1;
+    cs_layers = is_list(limits) ? len(limits) : (limits[2] - limits[0])/limits[1] + 1;
 
     cs_points =
         [for (i=limits)
