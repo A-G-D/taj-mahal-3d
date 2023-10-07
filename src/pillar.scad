@@ -127,10 +127,7 @@ module pillar(height, radius, sides = 16, fillet = false)
 }
 
 
-if ($preview)
-{
-    pillar(
-        height=800,
-        radius=20
-    );
-}
+pillar(
+    height=800,
+    radius=20
+);
