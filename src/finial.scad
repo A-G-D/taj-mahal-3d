@@ -2,7 +2,7 @@
 use <modules/extrude.scad>
 use <utils/regular_polygon_points.scad>
 
-module finial(base_radius, rod_radius, height)
+module finial(base_radius, rod_radius, height, a_count = 90, node_cs_count = 50)
 {
     n = 12;
     r_amplitude = 0.5;
@@ -38,7 +38,7 @@ module finial(base_radius, rod_radius, height)
 
     rod_height = height - node_10_height;
 
-    cs_points = [for (i=[0:0.5:360])
+    cs_points = [for (i=[0:360/a_count:360])
         let
         (
             min_r = base_radius - r_amplitude,
@@ -60,7 +60,7 @@ module finial(base_radius, rod_radius, height)
     {
         extrude(
             points=cs_points,
-            limits=[0:height/100:height],
+            limits=[0:height/node_cs_count:height],
             scaler_fn=function (z) sqrt(height*height - z*z)/base_radius
         );
     }
@@ -69,7 +69,7 @@ module finial(base_radius, rod_radius, height)
     {
         extrude(
             points=cs_points,
-            limits=[0:height/100:height],
+            limits=[0:height/node_cs_count:height],
             scaler_fn=function (z)
                 let
                 (
@@ -84,7 +84,7 @@ module finial(base_radius, rod_radius, height)
     {
         extrude(
             points=cs_points,
-            limits=[0:height/100:height],
+            limits=[0:height/node_cs_count:height],
             scaler_fn=function (z)
                 let
                 (
@@ -111,7 +111,7 @@ module finial(base_radius, rod_radius, height)
 
         extrude(
             points=circle_cs_points,
-            limits=[0:height/100:height],
+            limits=[0:height/node_cs_count:height],
             scaler_fn=scaler_fn
         );
     }
@@ -134,7 +134,7 @@ module finial(base_radius, rod_radius, height)
 
         extrude(
             points=circle_cs_points,
-            limits=[0:height/100:height],
+            limits=[0:height/node_cs_count:height],
             scaler_fn=scaler_fn
         );
     }
@@ -202,15 +202,15 @@ module finial(base_radius, rod_radius, height)
     union()
     {
         linear_extrude(node_6_offset + node_6_height)
-            circle(rod_radius, $fn=180);
+            circle(rod_radius, $fn=90);
 
         translate([0, 0, node_6_offset + node_6_height])
         linear_extrude(rod_height - (node_6_offset + node_6_height) - (rod_height - node_9_offset))
-            circle(0.5*rod_radius, $fn=180);
+            circle(0.5*rod_radius, $fn=90);
 
         translate([0, 0, node_9_offset])
         linear_extrude(rod_height - node_9_offset)
-            circle(0.5*rod_radius, $fn=180);
+            circle(0.5*rod_radius, $fn=90);
 
         node_1(node_1_height);
 
