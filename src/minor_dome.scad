@@ -1,11 +1,13 @@
 use <modules/gothic_door.scad>
+use <modules/extrude.scad>
+use <finial.scad>
 
 
 module minor_dome (mini_dome_radius, mini_dome_height)
 {
     module dome_shape_circle ()
     {
-        rotate_extrude(angle=360, convexity = 30, $fn = 50)
+        rotate_extrude(angle=360, convexity = 30, $fn = 60)
         {
             difference ()
             {
@@ -58,7 +60,7 @@ module minor_dome (mini_dome_radius, mini_dome_height)
 
     }
 
-        module bottom_block ()
+    module bottom_block ()
     {
         rotate_extrude(angle=360, convexity = 30, $fn = 8)
         polygon([[0,0],
@@ -68,27 +70,62 @@ module minor_dome (mini_dome_radius, mini_dome_height)
                 [0.72*mini_dome_radius,0]]);    
     }
 
+    module top_pattern ()
+    {
+        a_count=360;
+        // inversefunc = function(x) (1/(x+0.9));
+        linearfunc = function (x) 1-1.2*x;
+        linearfunc2 = function (x) 1+0.7*x;
+        n=25;
+        m=0.05;
+        cs_points = [for (i=[0:360/a_count:360]) [(1 + m*sin(n*i))*cos(i), (1 + m*sin(n*i))*sin(i)]];
+            scale ([1, 1, 0.7])
+            // extrude(points = cs_points, limits = [0:0.05 : 0.6 ], scaler_fn = inversefunc );
+            extrude(points = cs_points, limits = [0 :0.005 : 0.6 ], scaler_fn = linearfunc );
+            extrude(points = cs_points, limits = [0 :-0.005 : -0.15 ], scaler_fn = linearfunc2 );
+    }
+
+    module torus()
+    {   
+        translate([0,0, 0.42]) 
+        {
+            rotate_extrude(angle=360, convexity = 30, $fn = 20)
+        {
+        translate( [0.3,0,0]) 
+        circle(r = 0.05);
+        }
+        }
+    }
 
     union ()
     {   
-        translate([0,0,mini_dome_height-0.975*mini_dome_radius])
+       translate([0,0,mini_dome_height-0.975*mini_dome_radius])
         dome_shape_circle(); 
 
-        translate([0,0,mini_dome_height-1.555*mini_dome_radius])
+       translate([0,0,mini_dome_height-1.555*mini_dome_radius])
         top_block(mini_dome_radius);
 
         translate([0,0,0.4*mini_dome_radius])
         minor_dome_pillars();
 
         bottom_block();
+
+        translate([0, 0, 0.94*mini_dome_height]) 
+        scale(0.57*mini_dome_radius) 
+        {
+            top_pattern();
+            torus();
+        }
+
+        translate([0,0, mini_dome_height])
+        scale(.013*mini_dome_radius)  
+        finial(base_radius = 10, rod_radius = 2, height = 100);
     }
 }
 
 
 
-minor_dome(mini_dome_radius = 400, mini_dome_height = 1300);
-
-
+minor_dome(mini_dome_radius =300, mini_dome_height = 1000);
 
 
 // dome using elliptical equation.
