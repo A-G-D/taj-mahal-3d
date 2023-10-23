@@ -2,10 +2,9 @@
 use <modules/extrude.scad>
 use <utils/regular_polygon_points.scad>
 
-module finial(base_radius, rod_radius, height, a_count = 90, node_cs_count = 50)
+module finial(base_radius, rod_radius, height, a_count = 90, node_cs_count = 50, n = 12)
 {
-    n = 12;
-    r_amplitude = 0.5;
+    r_amplitude = 0.05*base_radius;
 
     node_1_height = 0.12*height;
 
