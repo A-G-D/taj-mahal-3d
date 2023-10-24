@@ -2,15 +2,15 @@ use <modules/gothic_door.scad>
 use <modules/polar_array.scad>
 use <pillar.scad>
 
-module hall (hall_height, hall_bounds_x, hall_bounds_y, hall_pillar_excess_height)
+module hall (height, bounds_x, bounds_y, pillar_excess_height)
 
 {
     chamfer_factor = 0.75; 
     block_width = 75 ;
     block_length = 620;
     hall_depression_height = 50;
-    hall_boundary_x = hall_bounds_x/2;
-    hall_boundary_y = hall_bounds_y/2;
+    hall_boundary_x = bounds_x/2;
+    hall_boundary_y = bounds_y/2;
     pillar_height1 = 1200;
     pillar_height2 = 1000;
     pillar_radius = 12;
@@ -19,7 +19,7 @@ module hall (hall_height, hall_bounds_x, hall_bounds_y, hall_pillar_excess_heigh
     mini_door_width = 120;
     mini_door_height = 270;
 
-        module hall_shape (hall_bounds_x, hall_bounds_y, chamfer_factor)
+        module hall_shape (bounds_x, bounds_y, chamfer_factor)
             {
                 coords = [[hall_boundary_x, chamfer_factor*hall_boundary_y],
                         [hall_boundary_x, -chamfer_factor*hall_boundary_y],
@@ -67,9 +67,9 @@ module hall (hall_height, hall_bounds_x, hall_bounds_y, hall_pillar_excess_heigh
             union() 
                 {
 
-                    linear_extrude(height = hall_height + hall_depression_height) 
+                    linear_extrude(height = height + hall_depression_height) 
                             {
-                                hall_shape (hall_bounds_x, hall_bounds_y, chamfer_factor);
+                                hall_shape (bounds_x, bounds_y, chamfer_factor);
                             }
                             
                     polar_array(n = 4, radius =0) 
@@ -111,7 +111,7 @@ module hall (hall_height, hall_bounds_x, hall_bounds_y, hall_pillar_excess_heigh
                                 rotate ([0,0,135])
                                 door_frame(mini_door_width*2, mini_door_height*1.2);
 
-                                linear_extrude(height = hall_height + hall_pillar_excess_height)
+                                linear_extrude(height = height + pillar_excess_height)
                                     {
                                         translate ([hall_boundary_x-block_width/2, 0])
                                         square(size = [block_width, block_length], center = true);
@@ -119,11 +119,11 @@ module hall (hall_height, hall_bounds_x, hall_bounds_y, hall_pillar_excess_heigh
                             }
                 }
 
-            translate([0, 0, hall_height]) 
+            translate([0, 0, height]) 
                 {
                     linear_extrude(height = hall_depression_height, center = false)
                         {
-                            offset(delta = -1.2*block_width) hall_shape(hall_bounds_x, hall_bounds_y, chamfer_factor);
+                            offset(delta = -1.2*block_width) hall_shape(bounds_x, bounds_y, chamfer_factor);
                         }
                 }
             
@@ -161,11 +161,11 @@ module hall (hall_height, hall_bounds_x, hall_bounds_y, hall_pillar_excess_heigh
             translate([0, 0, -0.5*main_door_height]) 
                 { 
                     linear_extrude(height = 0.5*main_door_height)
-                    square(3*[hall_bounds_x, hall_bounds_y], center = true);
+                    square(3*[bounds_x, bounds_y], center = true);
                 }
 
         }
         
 }
 render()
-hall (hall_height= 700, hall_bounds_x= 1800, hall_bounds_y=1800, hall_pillar_excess_height=200);
+hall (height= 700, bounds_x= 1800, bounds_y=1800, pillar_excess_height=200);
