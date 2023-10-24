@@ -33,28 +33,30 @@ module taj_mahal(
         /*
         *   The Platform
         */
+        render()
         platform(
             thickness=platform_thickness,
-            bounds_length=platform_bounds_length,
-            bounds_width=platform_bounds_width,
-            corner_octagon_outer_radius=platform_corner_octagon_outer_radius,
-            corner_octagon_inner_radius=platform_corner_octagon_inner_radius
+            bounds_x=platform_bounds_width,
+            bounds_y=platform_bounds_length,
+            octagon_size=platform_corner_octagon_outer_radius// - platform_corner_octagon_inner_radius
         );
 
         /*
         *   The Hall
         */
+        render()
         translate([0, 0, platform_thickness])
             hall(
                 height=hall_height,
-                bounds_length=hall_bounds_length,
-                bounds_width=hall_bounds_width,
+                bounds_x=hall_bounds_width,
+                bounds_y=hall_bounds_length,
                 pillar_excess_height=hall_pillar_excess_height
             );
 
         /*
         *   The 4 Minarets
         */
+        render()
         union()
         {
             translate([minaret_offset_x, minaret_offset_y, platform_thickness])
@@ -70,12 +72,14 @@ module taj_mahal(
         /*
         *   The Major Dome
         */
+        render()
         translate([0, 0, major_dome_offset_z])
-            major_dome(radius=major_dome_radius, height=major_dome_height);
+            major_dome(radius=major_dome_radius, height=major_dome_height, dome_radius=1.2*major_dome_radius);
 
         /*
         *   The 4 Minor Domes
         */
+        render()
         union()
         {
             translate([0, 0, major_dome_offset_z])
@@ -89,24 +93,24 @@ module taj_mahal(
 }
 
 
-// taj_mahal(
-//     platform_thickness=100,
-//     platform_bounds_length=1000,
-//     platform_bounds_width=1000,
-//     platform_corner_octagon_outer_radius=80,
-//     platform_corner_octagon_inner_radius=80,
+taj_mahal(
+    platform_thickness=100,
+    platform_bounds_length=1000,
+    platform_bounds_width=1000,
+    platform_corner_octagon_outer_radius=80,
+    platform_corner_octagon_inner_radius=80,
 
-//     hall_height=400,
-//     hall_bounds_length=600,
-//     hall_bounds_width=600,
-//     hall_pillar_excess_height=120,
+    hall_height=400,
+    hall_bounds_length=600,
+    hall_bounds_width=600,
+    hall_pillar_excess_height=120,
 
-//     minaret_radius=80,
-//     minaret_height=700,
+    minaret_radius=80,
+    minaret_height=700,
 
-//     major_dome_radius=280,
-//     major_dome_height=280,
+    major_dome_radius=280,
+    major_dome_height=280,
 
-//     minor_dome_radius=150,
-//     minor_dome_height=150
-// );
+    minor_dome_radius=150,
+    minor_dome_height=150
+);

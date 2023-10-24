@@ -4,14 +4,14 @@ use <minor_dome.scad>
 
 $fn =20;
 
-module minaret (minaret_radius, minaret_height)
+module minaret (radius, height)
 {
     
-    mini_dome_radius = 1.5*minaret_radius;
-    mini_dome_height = 4.3*minaret_radius;
-    cylinder_height = 0.75*minaret_height;
+    mini_dome_radius = 1.5*radius;
+    mini_dome_height = 4.3*radius;
+    cylinder_height = 0.75*height;
 
-    module minaret_core (minaret_radius)    
+    module minaret_core (radius)    
     {
         {
             quad_func = function (x) 2*pow(x-5, 2)+1;
@@ -20,7 +20,7 @@ module minaret (minaret_radius, minaret_height)
             a_count = 30;
             cs_points = [for (i=[0:360/a_count:360])[cos(i), sin(i)]];
 
-            scale([minaret_radius,minaret_radius, 0.93*minaret_radius])
+            scale([radius,radius, 0.93*radius])
             difference ()
             {
                 union ()
@@ -54,9 +54,9 @@ module minaret (minaret_radius, minaret_height)
         {
             for (i=[0:cylinder_height/3:2*cylinder_height/3])
             {translate([0, 0, i]) 
-            minaret_core(minaret_radius);}
+            minaret_core(radius);}
 
-            translate([0,0, 0.76*minaret_height]) 
+            translate([0,0, 0.76*height]) 
             minor_dome(mini_dome_radius, mini_dome_height);
         }
     }
@@ -64,7 +64,7 @@ module minaret (minaret_radius, minaret_height)
 }
 
 
-minaret(minaret_radius = 80, minaret_height = 1600);
+minaret(radius = 80, height = 1600);
 
 
 
