@@ -56,8 +56,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: taj_mahal-mahor_dome-${{ github.sha }}
-          path: taj_mahal-mahor_dome.stl
+          name: taj_mahal-major_dome-${{ github.sha }}
+          path: taj_mahal-major_dome.stl
           if-no-files-found: error
   build-minaret:
     runs-on: ubuntu-latest
