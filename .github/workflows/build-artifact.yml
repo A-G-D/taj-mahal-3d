@@ -2,6 +2,139 @@ name: Build STL Artifact
 run-name: Build STL artifact action running
 on: [push]
 jobs:
+  build-finial:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Install openscad
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install openscad -y --no-install-recommends
+          which openscad
+      - name: Export stl file
+        run: openscad -o taj_mahal-finial.stl -D 'quality="production"' src/finial.scad
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: taj_mahal-finial-${{ github.sha }}
+          path: taj_mahal-finial.stl
+          if-no-files-found: error
+  build-hall:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Install openscad
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install openscad -y --no-install-recommends
+          which openscad
+      - name: Export stl file
+        run: openscad -o taj_mahal-hall.stl -D 'quality="production"' src/hall.scad
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: taj_mahal-hall-${{ github.sha }}
+          path: taj_mahal-hall.stl
+          if-no-files-found: error
+  build-major-dome:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Install openscad
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install openscad -y --no-install-recommends
+          which openscad
+      - name: Export stl file
+        run: openscad -o taj_mahal-major_dome.stl -D 'quality="production"' src/major_dome.scad
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: taj_mahal-mahor_dome-${{ github.sha }}
+          path: taj_mahal-mahor_dome.stl
+          if-no-files-found: error
+  build-minaret:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Install openscad
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install openscad -y --no-install-recommends
+          which openscad
+      - name: Export stl file
+        run: openscad -o taj_mahal-minaret.stl -D 'quality="production"' src/minaret.scad
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: taj_mahal-minaret-${{ github.sha }}
+          path: taj_mahal-minaret.stl
+          if-no-files-found: error
+  build-minor-dome:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Install openscad
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install openscad -y --no-install-recommends
+          which openscad
+      - name: Export stl file
+        run: openscad -o taj_mahal-minor_dome.stl -D 'quality="production"' src/minor_dome.scad
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: taj_mahal-minor_dome-${{ github.sha }}
+          path: taj_mahal-minor_dome.stl
+          if-no-files-found: error
+  build-pillar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Install openscad
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install openscad -y --no-install-recommends
+          which openscad
+      - name: Export stl file
+        run: openscad -o taj_mahal-pillar.stl -D 'quality="production"' src/pillar.scad
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: taj_mahal-pillar-${{ github.sha }}
+          path: taj_mahal-pillar.stl
+          if-no-files-found: error
+  build-platform:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Install openscad
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install openscad -y --no-install-recommends
+          which openscad
+      - name: Export stl file
+        run: openscad -o taj_mahal-platform.stl -D 'quality="production"' src/platform.scad
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: taj_mahal-platform-${{ github.sha }}
+          path: taj_mahal-platform.stl
+          if-no-files-found: error
   build-stl:
     runs-on: ubuntu-latest
     steps:
@@ -14,22 +147,12 @@ jobs:
           sudo apt-get install openscad -y --no-install-recommends
           which openscad
       - name: Export stl file
-        run: |
-          openscad -o taj_mahal-finial.stl -D 'quality="production"' src/finial.scad
-          openscad -o taj_mahal-hall.stl -D 'quality="production"' src/hall.scad
-          openscad -o taj_mahal-major_dome.stl -D 'quality="production"' src/major_dome.scad
-          openscad -o taj_mahal-minaret.stl -D 'quality="production"' src/minaret.scad
-          openscad -o taj_mahal-minor_dome.stl -D 'quality="production"' src/minor_dome.scad
-          openscad -o taj_mahal-pillar.stl -D 'quality="production"' src/pillar.scad
-          openscad -o taj_mahal-platform.stl -D 'quality="production"' src/platform.scad
-          openscad -o taj_mahal.stl -D 'quality="production"' src/main.scad
+        run: openscad -o taj_mahal.stl -D 'quality="production"' src/main.scad
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: taj_mahal-${{ github.sha }}
-          path: |
-            taj_mahal.stl
-            taj_mahal-*.stl
+          path: taj_mahal.stl
           if-no-files-found: error
       - name: Release
         uses: softprops/action-gh-release@v1
