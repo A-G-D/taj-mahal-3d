@@ -201,15 +201,15 @@ module finial(base_radius, rod_radius, height, a_count = 90, node_cs_count = 50,
     union()
     {
         linear_extrude(node_6_offset + node_6_height)
-            circle(rod_radius, $fn=90);
+            circle(rod_radius);
 
         translate([0, 0, node_6_offset + node_6_height])
         linear_extrude(rod_height - (node_6_offset + node_6_height) - (rod_height - node_9_offset))
-            circle(0.5*rod_radius, $fn=90);
+            circle(0.5*rod_radius);
 
         translate([0, 0, node_9_offset])
         linear_extrude(rod_height - node_9_offset)
-            circle(0.5*rod_radius, $fn=90);
+            circle(0.5*rod_radius);
 
         node_1(node_1_height);
 
@@ -246,5 +246,8 @@ module finial(base_radius, rod_radius, height, a_count = 90, node_cs_count = 50,
 finial(
     base_radius=10,
     rod_radius=2,
-    height=100
+    height=100,
+    a_count=90,
+    node_cs_count=30,
+    $fn=45
 );

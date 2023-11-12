@@ -69,8 +69,10 @@ module major_dome(radius, height, dome_radius)
                 base_radius=finial_base_radius,
                 rod_radius=finial_rod_radius,
                 height=finial_height,
-                a_count=360,
-                n=36
+                a_count=90,
+                node_cs_count=25,
+                n=36,
+                $fn=45
             );
     }
 }

@@ -119,7 +119,7 @@ module minor_dome (radius, height)
 
         translate([0,0, height])
         scale(.013*radius)  
-        finial(base_radius = 10, rod_radius = 2, height = 100);
+        finial(base_radius = 10, rod_radius = 2, height = 100, node_cs_count = 20, $fn = 45);
     }
 }
 
