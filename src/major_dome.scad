@@ -3,7 +3,7 @@ use <modules/extrude.scad>
 use <utils/regular_polygon_points.scad>
 
 
-module major_dome(radius, height, dome_radius)
+module major_dome(radius, height, dome_radius, cap_a_count = 360)
 {
     assert(dome_radius > radius, "[module major_dome()]: <dome_radius> must be greater than <radius>");
 
@@ -33,7 +33,6 @@ module major_dome(radius, height, dome_radius)
                 cone_d < 0 ? sqrt(dome_radius*dome_radius - h*h) : cone_base_radius*(1 - cone_d/cone_height);
 
         cap_top_radius = 1.2*finial_base_radius;
-        cap_a_count = 360;
         cap_h = 0.3*dome_radius;
         cap_m = 0.02;
         cap_n = 36;
@@ -69,7 +68,7 @@ module major_dome(radius, height, dome_radius)
                 base_radius=finial_base_radius,
                 rod_radius=finial_rod_radius,
                 height=finial_height,
-                a_count=90,
+                a_count=cap_a_count,
                 node_cs_count=25,
                 n=36,
                 $fn=45
@@ -81,5 +80,6 @@ module major_dome(radius, height, dome_radius)
 major_dome(
     radius=10,
     height=40,
-    dome_radius=12
+    dome_radius=12,
+    cap_a_count=270
 );

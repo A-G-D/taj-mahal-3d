@@ -3,7 +3,7 @@ use <modules/extrude.scad>
 use <finial.scad>
 
 
-module minor_dome (radius, height)
+module minor_dome (radius, height, a_count = 360)
 {
     module dome_shape_circle ()
     {
@@ -39,7 +39,6 @@ module minor_dome (radius, height)
     {
 
         difference() 
-
         {       
             rotate ([0,0,30])
             cylinder(h = height-1.955*radius, r1 = 0.64*radius, r2 = 0.67*radius, $fn =100);
@@ -72,7 +71,6 @@ module minor_dome (radius, height)
 
     module top_pattern ()
     {
-        a_count=360;
         // inversefunc = function(x) (1/(x+0.9));
         linearfunc = function (x) 1-1.2*x;
         linearfunc2 = function (x) 1+0.7*x;
@@ -81,8 +79,8 @@ module minor_dome (radius, height)
         cs_points = [for (i=[0:360/a_count:360]) [(1 + m*sin(n*i))*cos(i), (1 + m*sin(n*i))*sin(i)]];
             scale ([1, 1, 0.7])
             // extrude(points = cs_points, limits = [0:0.05 : 0.6 ], scaler_fn = inversefunc );
-            extrude(points = cs_points, limits = [0 :0.005 : 0.6 ], scaler_fn = linearfunc );
-            extrude(points = cs_points, limits = [0 :-0.005 : -0.15 ], scaler_fn = linearfunc2 );
+            extrude(points = cs_points, limits = [0 :0.01 : 0.6 ], scaler_fn = linearfunc );
+            extrude(points = cs_points, limits = [0 :-0.01 : -0.15 ], scaler_fn = linearfunc2 );
     }
 
     module torus()
@@ -90,10 +88,10 @@ module minor_dome (radius, height)
         translate([0,0, 0.42]) 
         {
             rotate_extrude(angle=360, convexity = 30, $fn = 20)
-        {
-        translate( [0.3,0,0]) 
-        circle(r = 0.05);
-        }
+            {
+                translate( [0.3,0,0]) 
+                circle(r = 0.05);
+            }
         }
     }
 
@@ -125,7 +123,7 @@ module minor_dome (radius, height)
 
 
 
-minor_dome(radius =300, height = 1000);
+minor_dome(radius =300, height = 1000, a_count = 180);
 
 
 // dome using elliptical equation.

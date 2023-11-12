@@ -74,7 +74,12 @@ module taj_mahal(
         */
         render()
         translate([0, 0, major_dome_offset_z])
-            major_dome(radius=major_dome_radius, height=major_dome_height, dome_radius=1.2*major_dome_radius);
+            major_dome(
+                radius=major_dome_radius,
+                height=major_dome_height,
+                dome_radius=1.2*major_dome_radius,
+                a_count=270
+            );
 
         /*
         *   The 4 Minor Domes
@@ -82,12 +87,33 @@ module taj_mahal(
         render()
         union()
         {
-            translate([0, 0, major_dome_offset_z])
-                minor_dome(radius=minor_dome_radius, height=minor_dome_height);
-            translate([0, 0, major_dome_offset_z])
-                minor_dome(radius=minor_dome_radius, height=minor_dome_height);
-            translate([0, 0, major_dome_offset_z])
-                minor_dome(radius=minor_dome_radius, height=minor_dome_height);
+            md_x_offset = 0.35*platform_bounds_Width;
+            md_y_offset = 0.35*platform_bounds_length;
+
+            translate([md_x_offset, md_y_offset, major_dome_offset_z])
+                minor_dome(
+                    radius=minor_dome_radius,
+                    height=minor_dome_height,
+                    a_count=180
+                );
+            translate([-md_x_offset, md_y_offset, major_dome_offset_z])
+                minor_dome(
+                    radius=minor_dome_radius,
+                    height=minor_dome_height,
+                    a_count=180
+                );
+            translate([-md_x_offset, -md_y_offset, major_dome_offset_z])
+                minor_dome(
+                    radius=minor_dome_radius,
+                    height=minor_dome_height,
+                    a_count=180
+                );
+            translate([md_x_offset, -md_y_offset, major_dome_offset_z])
+                minor_dome(
+                    radius=minor_dome_radius,
+                    height=minor_dome_height,
+                    a_count=180
+                );
         }
     }
 }
