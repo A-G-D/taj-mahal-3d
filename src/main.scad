@@ -87,7 +87,7 @@ module taj_mahal(
         render()
         union()
         {
-            md_x_offset = 0.35*platform_bounds_Width;
+            md_x_offset = 0.35*platform_bounds_width;
             md_y_offset = 0.35*platform_bounds_length;
 
             translate([md_x_offset, md_y_offset, major_dome_offset_z])
